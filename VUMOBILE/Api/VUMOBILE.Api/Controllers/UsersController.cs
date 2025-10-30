@@ -82,5 +82,40 @@ namespace VUMOBILE.Api.Controllers
 
             return Ok(users);
         }
+
+        [HttpPost("create-users-with-form-input")]
+        public async Task<IActionResult> CreateUserWithFormInput([FromBody] User user)
+        {
+            user.TimeStamp = DateTime.UtcNow;
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            _cache.Remove("users");
+
+            return Ok(user);
+        }
+
+
+        [HttpGet("find-by-name")]
+        public async Task<IActionResult> FindUserByName([FromQuery] string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("Name parameter is required.");
+            }
+
+            var users = await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Name.Contains(name))
+                .OrderBy(u => u.Name)
+                .ToListAsync();
+
+            if (users == null || users.Count == 0)
+            {
+                return NotFound($"No users found with name containing '{name}'.");
+            }
+
+            return Ok(users);
+        }
+
     }
 }

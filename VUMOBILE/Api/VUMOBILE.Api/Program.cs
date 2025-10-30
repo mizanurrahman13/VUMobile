@@ -24,11 +24,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<SystemMetricsLogger>();
 builder.Services.AddHealthChecks();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 
 app.UseSwagger();
-app.UseSwaggerUI(); // This enables /swagger endpoint
+app.UseSwaggerUI();
+
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
