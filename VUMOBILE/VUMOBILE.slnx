@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="Api/VUMOBILE.Api/VUMOBILE.Api.csproj" />
+  </Folder>
+</Solution>

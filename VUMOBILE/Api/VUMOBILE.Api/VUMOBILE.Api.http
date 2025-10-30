@@ -1,0 +1,6 @@
+@VUMOBILE.Api_HostAddress = http://localhost:5073
+
+GET {{VUMOBILE.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
